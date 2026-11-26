@@ -35,4 +35,5 @@ Có sẵn chế độ kiểm tra --status, tự động dọn rác hàng tuần 
 
 💻 Run it now / Chạy thử ngay:
 sudo ./biglinux_gaming_optimizer.sh --install
+
 🔗 GitHub Repository: https://github.com/dinoking-iot/BIGLINUX-GAMING-OPTIMIZER-BGO-/releases/tag/BGO1.0.1
