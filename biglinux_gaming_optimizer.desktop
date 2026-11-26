@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=biglinux_optimizer
+Comment=Chay script biglinux_optimizer
+Exec=konsole --noclose -e bash -c "cd \"\$(dirname \"%k\")\" && ./biglinux_gaming_optimizer.sh"
+Icon=utilities-terminal
+Terminal=false
+Categories=System;Utility;
