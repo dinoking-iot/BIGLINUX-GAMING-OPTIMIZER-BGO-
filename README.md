@@ -49,3 +49,7 @@ sudo ./biglinux_gaming_optimizer.sh --rollback
 ```
 
 💡 Lưu ý / Note: Sau khi hoàn tất quá trình tối ưu hóa, hãy khởi động lại máy tính để nạp đầy đủ các module kernel và thông số hệ thống mới nhất. 
+
+Download
+
+https://github.com/dinoking-iot/BIGLINUX-GAMING-OPTIMIZER-BGO-/releases/tag/BGO1.1.0
