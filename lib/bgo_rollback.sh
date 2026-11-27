@@ -15,6 +15,8 @@ bgo_perform_rollback() {
         "/etc/modprobe.d/99-bgo-amdgpu.conf"
         "/etc/modprobe.d/99-bgo-nvidia.conf"
         "/etc/modprobe.d/99-bgo-audio-powersave.conf"
+        "/etc/modprobe.d/99-bgo-usb-gaming.conf"
+        "/etc/udev/rules.d/99-bgo-usb-gaming.rules"
         "/etc/wireplumber/wireplumber.conf.d/99-bgo-disable-suspend.conf"
         "/etc/NetworkManager/conf.d/99-bgo-disable-wifi-powersave.conf"
         "/etc/sysctl.d/99-bgo-gaming-performance.conf"
@@ -40,6 +42,9 @@ bgo_perform_rollback() {
             ((removed_count++)) || true
         fi
     done
+
+    # Reload udev rules after removal
+    udevadm control --reload-rules 2>/dev/null || true
 
     # 3. Reload kernel parameters & sysctl to system defaults
     bgo_run_task "Reloading default sysctl system settings" \

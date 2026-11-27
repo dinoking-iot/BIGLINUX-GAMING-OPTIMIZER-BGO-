@@ -8,7 +8,7 @@
 set -uo pipefail
 
 # Script Version & Patch Architecture
-export BGO_VERSION="1.0.1"
+export BGO_VERSION="1.1.0"
 
 # ANSI Colors & Formatting
 export BGO_COLOR_RESET='\033[0m'

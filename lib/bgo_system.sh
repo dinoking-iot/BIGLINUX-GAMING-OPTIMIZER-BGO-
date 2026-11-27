@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # BigLinux Gaming Optimizer (BGO) - Audio & Network Fixes, Virtual Memory, Sysctl
+# USB Hub Gaming Stability (Audio/WiFi/Bluetooth via USB Hub)
 # ==============================================================================
 
 bgo_optimize_system() {
     bgo_fix_audio_drops
+    bgo_fix_usb_hub_stability
     bgo_fix_network_drops
     bgo_optimize_virtual_memory
     bgo_optimize_limits
@@ -65,7 +67,109 @@ EOF
 }
 
 # ------------------------------------------------------------------------------
-# 2. Network Fix: Prevent WiFi/Ethernet Drops on Login
+# 2. USB Hub Gaming Stability Fix
+# Prevents USB audio speakers, WiFi adapters, and Bluetooth adapters
+# connected through a USB Hub from disconnecting during gaming sessions.
+# Root cause: Linux USB autosuspend + hub power management causes intermittent
+# device reconnects when the hub idles, breaking audio, WiFi, and Bluetooth.
+# ------------------------------------------------------------------------------
+bgo_fix_usb_hub_stability() {
+    bgo_info "[EN] Applying USB Hub stability fixes for gaming (Audio / WiFi / Bluetooth via USB Hub)..." \
+             "[VI] Áp dụng cấu hình ổn định USB Hub cho gaming (Loa / WiFi / Bluetooth qua USB Hub)..."
+
+    # --- 2a. Disable USB autosuspend globally via udev rules ---
+    # This prevents the kernel from powering down USB devices/hubs during idle
+    mkdir -p /etc/udev/rules.d
+    cat << 'EOF' > /etc/udev/rules.d/99-bgo-usb-gaming.rules
+# >>> BIGLINUX-GAMING-OPTIMIZER BEGIN >>>
+# Disable USB autosuspend for audio devices (USB speakers, DACs, headsets)
+# Prevents audio dropouts caused by USB power management during gaming
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="*", \
+    ATTR{bDeviceClass}=="01", \
+    ATTR{power/autosuspend}="-1", \
+    ATTR{power/control}="on"
+
+# Disable USB autosuspend for HID/input devices (keyboards, mice, controllers)
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="*", \
+    ATTR{bDeviceClass}=="03", \
+    ATTR{power/autosuspend}="-1", \
+    ATTR{power/control}="on"
+
+# Disable USB autosuspend for USB hubs to prevent hub-level power cycling
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="*", \
+    ATTR{bDeviceClass}=="09", \
+    ATTR{power/autosuspend}="-1", \
+    ATTR{power/control}="on"
+
+# Disable USB autosuspend for wireless/Bluetooth adapters (class 0xe0 = Wireless)
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="*", \
+    ATTR{bDeviceClass}=="e0", \
+    ATTR{power/autosuspend}="-1", \
+    ATTR{power/control}="on"
+
+# Disable USB autosuspend for network adapters (WiFi dongles, class 0x02 = Communications)
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="*", \
+    ATTR{bDeviceClass}=="02", \
+    ATTR{power/autosuspend}="-1", \
+    ATTR{power/control}="on"
+# <<< BIGLINUX-GAMING-OPTIMIZER END <<<
+EOF
+
+    # --- 2b. Set USB autosuspend default to disabled in kernel parameters ---
+    # usbcore.autosuspend=-1 disables autosuspend system-wide at kernel level
+    mkdir -p /etc/modprobe.d
+    cat << 'EOF' > /etc/modprobe.d/99-bgo-usb-gaming.conf
+# >>> BIGLINUX-GAMING-OPTIMIZER BEGIN >>>
+# Disable USB autosuspend system-wide to prevent gaming peripheral dropouts
+# Applies to USB audio (speakers/headsets), USB WiFi adapters, USB Bluetooth adapters
+# connected directly or via USB Hub
+options usbcore autosuspend=-1
+# <<< BIGLINUX-GAMING-OPTIMIZER END <<<
+EOF
+
+    # --- 2c. Reload udev rules immediately (apply without reboot) ---
+    udevadm control --reload-rules 2>/dev/null || true
+    udevadm trigger --subsystem-match=usb --action=add 2>/dev/null || true
+
+    # --- 2d. Apply to currently connected USB devices immediately ---
+    # Set power/control=on and autosuspend=-1 for all connected USB devices now
+    local usb_fixed=0
+    if [[ -d /sys/bus/usb/devices ]]; then
+        for usb_dev in /sys/bus/usb/devices/*/; do
+            local power_ctrl="${usb_dev}power/control"
+            local autosuspend="${usb_dev}power/autosuspend"
+            if [[ -w "${power_ctrl}" ]]; then
+                echo "on" > "${power_ctrl}" 2>/dev/null && (( usb_fixed++ )) || true
+            fi
+            if [[ -w "${autosuspend}" ]]; then
+                echo "-1" > "${autosuspend}" 2>/dev/null || true
+            fi
+        done
+    fi
+
+    bgo_log_raw "INFO" "[EN] USB power management disabled for ${usb_fixed} USB devices (immediate apply). | [VI] Đã tắt quản lý nguồn USB cho ${usb_fixed} thiết bị USB (áp dụng ngay lập tức)."
+
+    # --- 2e. Bluetooth: Disable autosuspend for Bluetooth USB adapters specifically ---
+    # btusb module: disable autosuspend to keep BT adapter active during gaming
+    cat << 'EOF' >> /etc/modprobe.d/99-bgo-usb-gaming.conf
+
+# Bluetooth USB adapter: disable autosuspend to prevent audio stream drops
+# (Bluetooth headsets/speakers via USB BT dongle or USB hub connected adapter)
+options btusb enable_autosuspend=0
+EOF
+
+    # --- 2f. NetworkManager: Disable WiFi power saving (also covers USB WiFi dongles) ---
+    # (Already handled by bgo_fix_network_drops, but add explicit USB WiFi note)
+
+    bgo_record_patch "USB_HUB_STABILITY" \
+        "Disabled USB autosuspend for hub-connected audio/WiFi/Bluetooth devices" \
+        "Tắt USB autosuspend cho loa/WiFi/Bluetooth qua USB Hub"
+    bgo_success "[EN] USB Hub stability configured: audio speakers, WiFi, and Bluetooth adapters will remain connected during gaming." \
+                "[VI] Cấu hình ổn định USB Hub: loa, WiFi, Bluetooth sẽ duy trì kết nối liên tục khi chơi game."
+}
+
+# ------------------------------------------------------------------------------
+# 3. Network Fix: Prevent WiFi/Ethernet Drops on Login
 # ------------------------------------------------------------------------------
 bgo_fix_network_drops() {
     bgo_info "[EN] Fixing WiFi & Network disconnection on login (Disabling powersave & BBR tuning)..." \
@@ -99,7 +203,7 @@ EOF
 }
 
 # ------------------------------------------------------------------------------
-# 3. Virtual Memory & Gaming Sysctl Optimizations
+# 4. Virtual Memory & Gaming Sysctl Optimizations
 # ------------------------------------------------------------------------------
 bgo_optimize_virtual_memory() {
     bgo_info "[EN] Applying High-Performance Virtual Memory & Gaming Kernel Sysctl tweaks..." \
@@ -137,7 +241,7 @@ EOF
 }
 
 # ------------------------------------------------------------------------------
-# 4. Security PAM Limits (Esync & Fsync Prerequisite)
+# 5. Security PAM Limits (Esync & Fsync Prerequisite)
 # ------------------------------------------------------------------------------
 bgo_optimize_limits() {
     bgo_info "[EN] Configuring system limits for Esync & Fsync support..." \
@@ -160,7 +264,7 @@ EOF
 }
 
 # ------------------------------------------------------------------------------
-# 5. GameMode Daemon & CPU Performance Automation
+# 6. GameMode Daemon & CPU Performance Automation
 # ------------------------------------------------------------------------------
 bgo_setup_gamemode() {
     bgo_info "[EN] Setting up Feral GameMode daemon & CPU governor automation..." \
