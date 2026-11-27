@@ -1,39 +1,51 @@
-🚀 BIGLINUX GAMING OPTIMIZER (BGO) v1.0.1 – TURN YOUR LINUX INTO AN ELITE GAMING RIG! 
+🚀 BIGLINUX GAMING OPTIMIZER — BIẾN LINUX THÀNH CỖ MÁY CHIẾN GAME ĐỈNH CAO CHỈ VỚI 1 LỆNH!
 
-🎮Biến chiếc máy tính BigLinux (và Arch/Debian/Fedora) của bạn thành cỗ máy chiến game đỉnh cao chỉ với 1 dòng lệnh!
+BIGLINUX GAMING OPTIMIZER — TURN YOUR LINUX INTO AN ULTIMATE GAMING RIG IN ONE COMMAND!
 
-Tired of hours of terminal tweaking, audio/WiFi drops after login, or white-screen crashes on game launchers? BGO v1.0.1 automates your entire Linux gaming setup out-of-the-box!
-Bạn mệt mỏi vì phải gõ lệnh hàng giờ, lỗi mất tiếng/rớt WiFi mỗi khi vừa đăng nhập hay launcher game bị màn hình trắng? BGO v1.0.1 sẽ tự động hóa toàn bộ quá trình tối ưu chơi game trên Linux cho bạn!
+Bạn mới chuyển sang Linux (BigLinux, Arch, Manjaro, Ubuntu, Fedora...) và đau đầu vì cấu hình driver, cài đặt thư viện DirectX, .NET, hay giật lag khi chơi game? BigLinux Gaming Optimizer chính là giải pháp tự động hóa toàn diện dành cho bạn! [1]
+Just switched to Linux (BigLinux, Arch, Manjaro, Ubuntu, Fedora...) and tired of manually configuring drivers, missing DirectX/.NET libraries, or dealing with gaming stutter? BigLinux Gaming Optimizer is the all-in-one automation suite built for you! 
 
-🔥 What’s inside / Những trang bị "tận răng" có sẵn:
+🔥 TÍNH NĂNG NỔI BẬT / KEY FEATURES
 
-🎮 Auto GPU & Legacy Vulkan Unlock / Tự động nhận diện GPU & Mở khóa card cũ:
+✅ Hỗ trợ đa nền tảng (Multi-Distro Support): Hoạt động mượt mà trên BigLinux, Arch Linux, Manjaro, Debian, Ubuntu, Fedora và các bản phân phối phái sinh.
 
-Full 32/64-bit Mesa/Vulkan + amdgpu driver unlock for legacy AMD GCN 1.0/2.0 cards (HD 7000/8000, R7/R9), plus pre-configured LACT, MangoHud, and GOverlay.
-Cài đủ bộ Mesa/Vulkan 32 & 64-bit, mở khóa driver amdgpu cho card AMD GCN 1.0/2.0 đời cũ (HD 7000/8000, R7/R9), tích hợp sẵn LACT, MangoHud và GOverlay.
+✅ Kích hoạt kiến trúc lai 32/64-bit (Multilib & Hybrid Architecture): Tự động mở khóa và cấu hình môi trường 32/64-bit hoàn chỉnh cho các tựa game cũ lẫn mới.
 
-⚡ Low-Latency Gaming Kernel / Nhân Gaming Kernel độ trễ thấp:
-Auto-installs linux-xanmod (BigLinux) or linux-zen (Arch) with safe GRUB updates.
-Tự động cài đặt nhân linux-xanmod (trên BigLinux) hoặc linux-zen (trên Arch) và cập nhật GRUB an toàn.
+✅ Tự động nhận diện GPU & Vulkan (Auto GPU & Vulkan 32/64-bit): Cài đặt chuẩn xác driver đồ họa, Vulkan ICD 32/64-bit và hỗ trợ tay cầm chơi game.
 
-📦 Complete Gaming Runtimes / Đầy đủ bộ Runtimes chiến mọi game:
-DXVK, VKD3D-Proton, Wine-Mono (.NET), Visual C++ (2005–2022), OpenJDK, and automated WebView2 installer (fixes Genshin Impact, EA App, Riot launchers).
-Tích hợp DXVK, VKD3D-Proton, Wine-Mono (.NET), Visual C++ (2005–2022), OpenJDK và bộ cài tự động WebView2 (sửa lỗi trắng màn hình trên Genshin Impact, EA App, Riot).
+✅ Kernel Gaming độ trễ thấp (Low-Latency Gaming Kernel): Tự động kiểm tra và cài đặt nhân hệ điều hành tối ưu hiệu năng như BigLinux, XanMod hoặc Zen Kernel.
 
-🛠️ Zero-Drop Audio, Ping & Stutter Fixes / Sửa lỗi mất tiếng, giảm Ping & hết giật khựng:
+✅ Đầy đủ Runtime thiết yếu (All-in-One Runtimes): Cài đặt trọn bộ DirectX 9–12, .NET, Visual C++, Java và WebView2 chỉ trong một lần chạy.
 
-Disables audio/WiFi power-saving on login, enables TCP BBR + Cake, and tunes vm.max_map_count + split_lock_mitigate=0 for smooth gameplay in Unreal Engine, Star Citizen & Anti-Cheat games.
-Tắt chế độ ngủ đông của loa/WiFi khi login, bật TCP BBR + Cake giảm ping, tối ưu vm.max_map_count và tắt split_lock_mitigate giúp chơi mượt game Unreal Engine, Star Citizen và game có Anti-Cheat.
+✅ Tinh chỉnh hệ thống chuyên sâu (Deep System Tuning): Sửa lỗi âm thanh, USB Hub, ngắt kết nối mạng; tối ưu bộ nhớ ảo (vm.max_map_count đạt chuẩn cho Star Citizen & Anti-Cheat) và kích hoạt GameMode.
 
-🍷 Pure Wine WoW64 Click-to-Run / Wine WoW64 thuần túy – Click là chạy:
-Double-click any .exe or .msi file to launch directly under GameMode with zero 32-bit prefix clutter.
-Nhấp đúp file .exe / .msi là chạy thẳng qua GameMode mà không làm rác hệ thống.
+✅ Pure Wine WOW64 & Click-to-Run: Thiết lập môi trường Wine WOW64 thuần túy giúp mở file .exe nhanh gọn, đi kèm công cụ tự động dọn dẹp bộ nhớ đệm (Cache Cleaner).
 
-🔄 Self-Cleaning & 1-Click Rollback / Tự động dọn rác & Khôi phục nguyên bản:
-Includes --status audit mode, weekly cache cleaner, and safe --rollback anytime.
-Có sẵn chế độ kiểm tra --status, tự động dọn rác hàng tuần và hỗ trợ --rollback về nguyên bản bất cứ lúc nào.
+✅ An toàn tuyệt đối với Rollback (Safe & Reversible): Tích hợp chế độ kiểm tra trạng thái (--status) và hoàn nguyên hệ thống (--rollback) bất cứ lúc nào nếu muốn quay về mặc định. 
 
-💻 Run it now / Chạy thử ngay:
-sudo ./biglinux_gaming_optimizer.sh --install
+💻 HƯỚNG DẪN SỬ DỤNG NHANH / QUICK USAGE
 
-🔗 GitHub Repository: https://github.com/dinoking-iot/BIGLINUX-GAMING-OPTIMIZER-BGO-/releases/tag/BGO1.0.1
+1. Cài đặt và tối ưu hóa toàn diện (Full Automated Optimization):
+   
+```bash
+sudo ./biglinux_gaming_optimizer.sh --install 
+```
+2. Kiểm tra độ sẵn sàng chơi game của máy (System Gaming Audit):
+
+```bash
+sudo ./biglinux_gaming_optimizer.sh --status 
+```
+
+3. Dọn dẹp bộ nhớ đệm gói phần mềm tức thì (Clean Package Cache):
+
+```bash
+sudo ./biglinux_gaming_optimizer.sh --clean-cache 
+```
+
+4. Gỡ bỏ tinh chỉnh và khôi phục mặc định (Rollback & Restore Defaults):
+
+```bash
+sudo ./biglinux_gaming_optimizer.sh --rollback 
+```
+
+💡 Lưu ý / Note: Sau khi hoàn tất quá trình tối ưu hóa, hãy khởi động lại máy tính để nạp đầy đủ các module kernel và thông số hệ thống mới nhất. 
