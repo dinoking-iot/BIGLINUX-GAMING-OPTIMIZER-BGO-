@@ -145,8 +145,8 @@ bgo_main_install() {
 
     # Step 3: Low-Latency Gaming Kernel
     bgo_step 3 6 \
-        "Auditing & Installing Low-Latency Gaming Kernel (XanMod/Zen)" \
-        "Kiểm tra và cài đặt Kernel Gaming độ trễ thấp (XanMod/Zen)"
+        "Auditing & Installing Low-Latency Gaming Kernel (BigLinux/XanMod/Zen)" \
+        "Kiểm tra và cài đặt Kernel Gaming độ trễ thấp (BigLinux/XanMod/Zen)"
     bgo_optimize_kernel
 
     # Step 4: Essential Runtimes (DirectX, .NET, VC++, Java, WebView2)
@@ -157,8 +157,8 @@ bgo_main_install() {
 
     # Step 5: System Tuning, Audio & Network Fixes
     bgo_step 5 6 \
-        "Applying Audio & Network Fixes, Virtual Memory & GameMode Tuning" \
-        "Sửa lỗi âm thanh & mất mạng, tối ưu bộ nhớ ảo và GameMode"
+        "Applying Audio, USB Hub & Network Fixes, Virtual Memory & GameMode Tuning" \
+        "Sửa lỗi âm thanh, USB Hub & mất mạng, tối ưu bộ nhớ ảo và GameMode"
     bgo_optimize_system
 
     # Step 6: Pure Wine WOW64, Click-to-Run & Cache Cleaner
